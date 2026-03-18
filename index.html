@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>書斎の家計簿</title>
+    <!-- 大正モダンな雰囲気を出す明朝体フォント（Google Fonts） -->
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
+    <!-- グラフを描画するためのライブラリ（Chart.js） -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- ヘッダー（上部：年月＋前後移動） -->
+    <header class="taisho-header">
+        <div class="month-navigation">
+            <button id="prev-month" class="nav-arrow">◀</button>
+            <h1 id="current-month-display">----年--月</h1>
+            <button id="next-month" class="nav-arrow">▶</button>
+        </div>
+    </header>
+
+    <main class="taisho-main">
+        <!-- 中央：収入、支出、残高 -->
+        <section class="summary-board">
+            <div class="summary-item income-box">
+                <span class="label">収入</span>
+                <span class="amount" id="month-income">0円</span>
+            </div>
+            <div class="summary-item expense-box">
+                <span class="label">支出</span>
+                <span class="amount" id="month-expense">0円</span>
+            </div>
+            <div class="summary-item balance-box">
+                <span class="label">残高</span>
+                <span class="amount" id="month-balance">0円</span>
+            </div>
+        </section>
+
+        <!-- 下部：グラフと詳細 -->
+        <div class="dashboard-grid">
+            <!-- 左側：円グラフ -->
+            <section class="card chart-card">
+                <h2>収支割合</h2>
+                <div class="chart-container">
+                    <canvas id="balanceChart"></canvas>
+                </div>
+            </section>
+
+            <!-- 右側：カテゴリ別支出と履歴 -->
+            <div class="details-column">
+                <section class="card category-card">
+                    <h2>カテゴリ別支出</h2>
+                    <ul id="category-summary" class="item-list">
+                        <!-- カテゴリ集計が入ります -->
+                    </ul>
+                </section>
+
+                <section class="card history-card">
+                    <h2>入出金履歴</h2>
+                    <ul id="month-history" class="item-list">
+                        <!-- 履歴が入ります -->
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- 画面右下の入力ボタン（ワンタップで入力画面を開く） -->
+    <button id="fab-add" class="fab-btn">記帳</button>
+
+    <!-- 入力フォーム（モーダルウィンドウ：普段は隠れている） -->
+    <div id="input-modal" class="modal-overlay">
+        <div class="modal-content card">
+            <button id="close-modal" class="close-btn">×</button>
+            <h2>新しく記帳する</h2>
+            <form id="kakeibo-form">
+                <div class="form-row">
+                    <label for="date">日付</label>
+                    <input type="date" id="date" required>
+                </div>
+                <div class="form-row">
+                    <label for="amount">金額（円）</label>
+                    <input type="number" id="amount" min="1" required>
+                </div>
+                <div class="form-row">
+                    <label for="type">収支</label>
+                    <select id="type" required>
+                        <option value="expense">支出</option>
+                        <option value="income">収入</option>
+                    </select>
+                </div>
+                <!-- 支出の時だけカテゴリを選べるようにする -->
+                <div class="form-row" id="category-row">
+                    <label for="category">部類（カテゴリ）</label>
+                    <select id="category" required>
+                        <option value="食費">食費</option>
+                        <option value="趣味・娯楽">趣味・娯楽</option>
+                        <option value="交際費">交際費</option>
+                        <option value="交通費">交通費</option>
+                        <option value="衣服・美容">衣服・美容</option>
+                        <option value="健康・医療">健康・医療</option>
+                        <option value="自動車">自動車</option>
+                        <option value="水道・光熱費">水道・光熱費</option>
+                        <option value="住宅">住宅</option>
+                        <option value="保険">保険</option>
+                        <option value="通信費">通信費</option>
+                        <option value="その他">その他</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label for="memo">覚え書き（任意）</label>
+                    <input type="text" id="memo" placeholder="例：珈琲代">
+                </div>
+                <button type="submit" class="submit-btn">帳簿に記す</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

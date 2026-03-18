@@ -1,0 +1,328 @@
+/* 大正モダン・書斎テーマのデザイン設定 */
+:root {
+    /* 色の定義 */
+    --wood-bg: #2C1B10;        /* 本棚・書斎の深いブラウン */
+    --paper-bg: #F4EEDD;       /* アンティーク調の少し黄味がかった紙色 */
+    --text-main: #3E2F26;      /* 濃いセピア・墨色 */
+    --accent-gold: #B68D40;    /* 落ち着いた真鍮・ゴールド */
+    --accent-green: #1C352D;   /* 書斎の机の緑・ダークグリーン */
+    --income-color: #2E5041;   /* 収入の緑（渋め） */
+    --expense-color: #8B2626;  /* 支出の赤（えんじ色） */
+    
+    /* フォント（明朝体） */
+    --font-mincho: 'Shippori Mincho', serif;
+}
+
+body {
+    font-family: var(--font-mincho);
+    background-color: var(--wood-bg);
+    /* 縦縞の木目っぽい、うっすらとしたテクスチャ（CSSのグラデーションで表現） */
+    background-image: repeating-linear-gradient(
+        45deg,
+        rgba(0,0,0,0.05) 0px,
+        rgba(0,0,0,0.05) 2px,
+        transparent 2px,
+        transparent 4px
+    );
+    color: var(--text-main);
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* ＝＝＝ ヘッダー（年月選択） ＝＝＝ */
+.taisho-header {
+    background-color: var(--accent-green);
+    color: var(--paper-bg);
+    padding: 20px 0;
+    text-align: center;
+    border-bottom: 4px solid var(--accent-gold);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.month-navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+.month-navigation h1 {
+    margin: 0;
+    font-size: 26px;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+.nav-arrow {
+    background: none;
+    border: none;
+    color: var(--accent-gold);
+    font-size: 20px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.nav-arrow:hover {
+    transform: scale(1.2);
+    color: #dfba6b;
+}
+
+/* ＝＝＝ メインコンテンツ ＝＝＝ */
+.taisho-main {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 15px;
+    padding-bottom: 100px; /* FABが隠れないように */
+}
+
+/* 中央：収支サマリーボード */
+.summary-board {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--paper-bg);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.05), 0 5px 15px rgba(0,0,0,0.3);
+    border: 2px solid var(--accent-gold);
+    margin-bottom: 30px;
+}
+
+.summary-item {
+    flex: 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px dotted var(--accent-gold);
+}
+
+.summary-item:last-child {
+    border-right: none;
+}
+
+.summary-item .label {
+    font-size: 14px;
+    color: var(--text-main);
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+.summary-item .amount {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.income-box .amount { color: var(--income-color); }
+.expense-box .amount { color: var(--expense-color); }
+.balance-box .amount { color: var(--text-main); }
+
+/* 下部：ダッシュボードグリッド（グラフと詳細） */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 25px;
+}
+
+@media (min-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr 1fr; /* パソコンでは半々 */
+    }
+}
+
+.details-column {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* カードのデザイン（紙・革風） */
+.card {
+    background-color: var(--paper-bg);
+    border-radius: 4px;
+    padding: 20px;
+    box-shadow: 2px 4px 8px rgba(0,0,0,0.4);
+    border-left: 6px solid var(--accent-gold); /* 本の背表紙のようなアクセント */
+}
+
+.card h2 {
+    margin-top: 0;
+    font-size: 18px;
+    color: var(--accent-green);
+    border-bottom: 1px solid var(--accent-gold);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+/* グラフコンテナ */
+.chart-container {
+    position: relative;
+    width: 100%;
+    /* 円グラフをスマホでも見やすくする */
+    max-width: 350px;
+    margin: 0 auto;
+}
+
+/* リスト表示（カテゴリ・履歴） */
+.item-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.item-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px dashed rgba(62, 47, 38, 0.3);
+    align-items: center;
+}
+
+.item-list li:last-child {
+    border-bottom: none;
+}
+
+.item-name {
+    font-weight: bold;
+}
+
+.item-date {
+    font-size: 14px;
+    color: #666;
+    margin-right: 10px;
+}
+
+.item-value {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.val-income { color: var(--income-color); }
+.val-expense { color: var(--expense-color); }
+
+/* ＝＝＝ 入力フォーム・モーダル（ワンタップ入力） ＝＝＝ */
+/* 右下の丸いボタン */
+.fab-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: var(--accent-green);
+    color: var(--accent-gold);
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 3px solid var(--accent-gold);
+    font-size: 18px;
+    font-weight: bold;
+    font-family: var(--font-mincho);
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    z-index: 100;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.fab-btn:hover {
+    transform: scale(1.05);
+    background-color: #27473d;
+}
+
+/* モーダルの背景 */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background-color: var(--paper-bg);
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+    border-left: none;
+    border-top: 6px solid var(--accent-gold);
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--text-main);
+    cursor: pointer;
+}
+
+.form-row {
+    margin-bottom: 20px;
+}
+
+.form-row label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--accent-green);
+}
+
+.form-row input, .form-row select {
+    width: 100%;
+    padding: 12px;
+    background-color: #FFFDF9;
+    border: 1px solid #C4B9A3;
+    border-radius: 2px;
+    font-size: 16px;
+    font-family: var(--font-mincho);
+    box-sizing: border-box;
+    color: var(--text-main);
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--accent-green);
+    color: var(--paper-bg);
+    border: 2px solid var(--accent-gold);
+    font-size: 18px;
+    font-weight: bold;
+    font-family: var(--font-mincho);
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: #27473d;
+}
+
+.del-btn {
+    background: none;
+    border: none;
+    color: #999;
+    text-decoration: underline;
+    font-size: 12px;
+    cursor: pointer;
+    margin-top: 4px;
+    font-family: var(--font-mincho);
+}
+.del-btn:hover {
+    color: var(--expense-color);
+}
