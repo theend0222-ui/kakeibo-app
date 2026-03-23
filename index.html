@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +10,13 @@
     <!-- グラフを描画するためのライブラリ（Chart.js） -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="style.css">
+
+    <!-- PWA用の設定 -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1C352D">
+    <link rel="apple-touch-icon" href="icon-192.png">
 </head>
+
 <body>
     <!-- ヘッダー（上部：年月＋前後移動） -->
     <header class="taisho-header">
@@ -117,6 +124,22 @@
         </div>
     </div>
 
+    <!-- PWA: Service Workerの登録 -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                // ServiceWorkerの登録パスのみ絶対パスに変更（scopeなし）
+                navigator.serviceWorker.register('/kakeibo-app/service-worker.js')
+                    .then(function (registration) {
+                        console.log('ServiceWorker の登録に成功しました。スコープ: ', registration.scope);
+                    })
+                    .catch(function (err) {
+                        console.log('ServiceWorker の登録に失敗しました: ', err);
+                    });
+            });
+        }
+    </script>
     <script src="script.js"></script>
 </body>
+
 </html>
